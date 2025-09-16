@@ -116,7 +116,7 @@ const IgboTranslationPromo: React.FC<IgboTranslationPromoProps> = ({ className =
         </button>
         
         <p className="mt-4 text-gray-600 text-sm">
-          With an account, you'll get unlimited words, faster translations, and more features.
+          With an account, youll get unlimited words, faster translations, and more features.
         </p>
       </div>
     </div>

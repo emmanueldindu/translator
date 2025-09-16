@@ -62,7 +62,7 @@ const LearnAndTravelSection: React.FC<LearnAndTravelSectionProps> = ({ className
           </h2>
           <div className="space-y-4 text-gray-600 leading-relaxed">
             <p>
-              Whether you're learning Igbo as a hobby, connecting with Nigerian communities, 
+              Whether youre learning Igbo as a hobby, connecting with Nigerian communities, 
               enhancing your resume, or pursuing personal development, our translator makes 
               language learning accessible and effective.
             </p>
@@ -182,7 +182,7 @@ const LearnAndTravelSection: React.FC<LearnAndTravelSectionProps> = ({ className
           </h2>
           <div className="space-y-4 text-gray-600 leading-relaxed">
             <p>
-              Whether you're visiting Nigeria, connecting with Igbo communities worldwide, 
+              Whether youre visiting Nigeria, connecting with Igbo communities worldwide, 
               or exploring Igbo-speaking regions, our translator acts as your personal language 
               assistant right on your phone.
             </p>

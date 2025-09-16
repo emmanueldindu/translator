@@ -42,7 +42,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Instant</h3>
                 <p className="text-gray-600 mb-2">Get accurate translations in just a few seconds.</p>
-                <p className="text-sm text-gray-500 italic">Nweta ntụgharị asụsụ ziri ezi n'ime sekọnd ole na ole.</p>
+                <p className="text-sm text-gray-500 italic">Nweta ntụgharị asụsụ ziri ezi na ime sekọnd ole na ole.</p>
               </div>
 
               {/* Versatile Feature */}
@@ -62,7 +62,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Affordable</h3>
                 <p className="text-gray-600 mb-2">Translate for free—or get more features with Premium.</p>
-                <p className="text-sm text-gray-500 italic">Tụgharịa n'efu—ma ọ bụ nweta atụmatụ ndị ọzọ na Premium.</p>
+                <p className="text-sm text-gray-500 italic">Tụgharịa na efu—ma ọ bụ nweta atụmatụ ndị ọzọ na Premium.</p>
               </div>
             </div>
 
