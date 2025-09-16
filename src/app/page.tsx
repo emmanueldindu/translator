@@ -44,7 +44,7 @@ export default function Home() {
                 <p className="text-gray-600 mb-2">Get accurate translations in just a few seconds.</p>
                 <p className="text-sm text-gray-500 italic">Nweta ntụgharị asụsụ ziri ezi na ime sekọnd ole na ole.</p>
               </div>
-
+{/*  */}
               {/* Versatile Feature */}
               <div className="text-center p-6 rounded-lg hover:shadow-lg transition-shadow">
                 <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
