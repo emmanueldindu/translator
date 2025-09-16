@@ -1,0 +1,43 @@
+﻿# Node
+node_modules/
+language/node_modules/
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Builds
+.next/
+language/.next/
+.out/
+dist/
+build/
+
+# Env
+.env*
+!.env.example
+language/.env*
+!language/.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Bun/Lock files
+bun.lockb
+bun.lock
+language/bun.lockb
+language/bun.lock
+
+# Misc
+*.log
+*.pid
+*.seed
+*.tsbuildinfo
