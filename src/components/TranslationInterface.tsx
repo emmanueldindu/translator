@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   DocumentTextIcon, 
   ArrowPathIcon, 
@@ -9,6 +9,9 @@ import {
   LanguageIcon
 } from '@heroicons/react/24/outline';
 import translationService from '../services/translationService';
+import authService from '../services/authService';
+import { useAuth } from '../contexts/AuthContext';
+import AuthModal from './AuthModal';
 
 interface TranslationInterfaceProps {
   className?: string;
@@ -22,9 +25,26 @@ const TranslationInterface: React.FC<TranslationInterfaceProps> = ({ className =
   const [toLanguage, setToLanguage] = useState<string>('Igbo');
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [translationError, setTranslationError] = useState<string>('');
+  const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
+  const { user, remainingTranslations, isUnlimited, refreshRemainingTranslations } = useAuth();
+
+  // Clear error message when user successfully logs in
+  useEffect(() => {
+    if (user && translationError) {
+      setTranslationError('');
+      setShowAuthModal(false);
+    }
+  }, [user]);
 
   const handleTranslate = async (): Promise<void> => {
     if (!inputText.trim()) return;
+
+    // Check if user needs to login
+    if (!user && remainingTranslations <= 0) {
+      setTranslationError('You\'ve reached the limit of 3 free translations. Please login or register to continue.');
+      setShowAuthModal(true);
+      return;
+    }
 
     setIsTranslating(true);
     setTranslationError('');
@@ -42,6 +62,18 @@ const TranslationInterface: React.FC<TranslationInterfaceProps> = ({ className =
       );
       
       setOutputText(translatedText);
+      
+      // Record translation in backend
+      try {
+        await authService.recordTranslation(inputText, sourceLang, targetLang, translatedText);
+        await refreshRemainingTranslations();
+      } catch (recordError: any) {
+        // If rate limit is hit
+        if (recordError.response?.status === 429) {
+          setTranslationError('You\'ve reached the limit of 3 free translations. Please login or register to continue.');
+          setShowAuthModal(true);
+        }
+      }
     } catch (error) {
       console.error('Translation error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Translation failed. Please try again.';
@@ -274,7 +306,28 @@ const TranslationInterface: React.FC<TranslationInterfaceProps> = ({ className =
             </div>
           )}
         </div>
+
+        {/* Translation Counter for Guest Users */}
+        {!user && !isUnlimited && (
+          <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <p className="text-sm text-blue-800">
+              <strong>{remainingTranslations} of 3</strong> free translations remaining.{' '}
+              <button
+                onClick={() => setShowAuthModal(true)}
+                className="text-blue-600 hover:text-blue-700 font-medium underline"
+              >
+                Sign up for unlimited translations
+              </button>
+            </p>
+          </div>
+        )}
       </div>
+
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)} 
+      />
     </div>
   );
 };

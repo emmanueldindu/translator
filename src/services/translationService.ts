@@ -11,13 +11,11 @@ interface TranslationError {
 }
 
 class TranslationService {
-  private apiKey: string;
-  private baseUrl: string;
+  private apiEndpoint: string;
 
   constructor() {
-    // Using LibreTranslate API as it's free and supports Igbo
-    this.baseUrl = 'https://libretranslate.de/translate';
-    this.apiKey = process.env.NEXT_PUBLIC_TRANSLATION_API_KEY || '';
+    // Using DeepL API via Next.js API route (server-side)
+    this.apiEndpoint = '/api/translate';
   }
 
   /**
@@ -33,12 +31,12 @@ class TranslationService {
         throw new Error('Please enter text to translate');
       }
 
-      // Try LibreTranslate API first
+      // Try DeepL API via Next.js API route
       try {
-        const response = await this.callLibreTranslateAPI(text, sourceLang, targetLang);
+        const response = await this.callDeepLAPI(text, sourceLang, targetLang);
         return response;
       } catch (apiError) {
-        console.warn('API translation failed, falling back to mock:', apiError);
+        console.warn('DeepL API translation failed, falling back to mock:', apiError);
         // Fallback to mock translation if API fails
         const response = await this.mockTranslate(text, sourceLang, targetLang);
         return response;
@@ -50,27 +48,28 @@ class TranslationService {
   }
 
   /**
-   * Call LibreTranslate API
+   * Call DeepL API via Next.js API route (server-side)
    */
-  private async callLibreTranslateAPI(
+  private async callDeepLAPI(
     text: string, 
     sourceLang: string, 
     targetLang: string
   ): Promise<string> {
-    const response = await axios.post(this.baseUrl, {
-      q: text,
-      source: sourceLang,
-      target: targetLang,
-      format: 'text'
+    const response = await axios.post(this.apiEndpoint, {
+      text,
+      sourceLang,
+      targetLang
     }, {
       headers: {
         'Content-Type': 'application/json'
       },
-      timeout: 10000 // 10 second timeout
+      timeout: 65000 // 65 second timeout (slightly more than backend)
     });
 
     if (response.data && response.data.translatedText) {
       return response.data.translatedText;
+    } else if (response.data && response.data.error) {
+      throw new Error(response.data.error);
     } else {
       throw new Error('Invalid response from translation API');
     }

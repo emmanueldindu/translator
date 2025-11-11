@@ -2,19 +2,21 @@
 
 ## 🚀 Quick Start (Recommended)
 
-### Option 1: LibreTranslate (Free, No Signup Required)
-**Status**: ✅ Ready to use immediately
+### Option 1: DeepL API (Free Tier - 500,000 characters/month)
+**Status**: ✅ Configured and ready to use
 
-Your app is already configured to use LibreTranslate API. It will:
-1. Try to use the free LibreTranslate API first
-2. Fall back to mock translations if the API is unavailable
-3. Work immediately without any setup
+Your app is now configured to use DeepL API with Igbo beta language support. It will:
+1. Use DeepL API for high-quality translations
+2. Support Igbo language (beta feature enabled)
+3. Fall back to mock translations if the API is unavailable
+
+**Your API Key**: Already configured in `.env.local`
 
 **Test it now**: Try translating "hello" from English to Igbo!
 
 ---
 
-## 🔧 Alternative APIs (If you want more features)
+## 🔧 Alternative APIs (If you want to switch)
 
 ### Option 2: OpenL Translate (30 free translations/day)
 1. **Sign up**: Go to https://openl.io/
