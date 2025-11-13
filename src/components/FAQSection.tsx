@@ -88,7 +88,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({ className = '' }) => {
 
       {/* FAQ Items */}
       <div className="space-y-0">
-        {faqs.map((faq, index) => (
+        {faqs.map((faq) => (
           <div key={faq.id} className="border-b border-gray-200 last:border-b-0">
             <button
               onClick={() => toggleItem(faq.id)}

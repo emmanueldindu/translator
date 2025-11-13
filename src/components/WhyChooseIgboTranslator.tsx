@@ -6,12 +6,9 @@ import {
   SparklesIcon,
   GlobeAltIcon,
   BookOpenIcon,
-  LanguageIcon,
-  DevicePhoneMobileIcon,
   CpuChipIcon,
   ArrowPathIcon,
-  ShieldCheckIcon,
-  HeartIcon
+  ShieldCheckIcon
 } from '@heroicons/react/24/outline';
 
 interface WhyChooseIgboTranslatorProps {

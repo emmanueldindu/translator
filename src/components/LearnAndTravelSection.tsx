@@ -2,11 +2,8 @@
 
 import React, { useState } from 'react';
 import { 
-  GlobeAltIcon,
-  LanguageIcon,
   MapPinIcon,
   DevicePhoneMobileIcon,
-  BookOpenIcon,
   ChatBubbleLeftRightIcon,
   ArrowRightIcon
 } from '@heroicons/react/24/outline';

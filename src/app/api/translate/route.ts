@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
     }
 
     // For Igbo (IG), enable beta languages
-    const options: any = {};
+    const options: { extraRequestParameters?: { enable_beta_languages: string } } = {};
     
     if (targetLanguage === 'ig' || sourceLanguage === 'ig') {
       options.extraRequestParameters = { enable_beta_languages: '1' };
@@ -88,20 +88,21 @@ export async function POST(request: NextRequest) {
       detectedSourceLanguage: detectedLang
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string; statusCode?: number; name?: string; stack?: string };
     console.error('Translation API error:', {
-      message: error.message,
-      code: error.code,
-      statusCode: error.statusCode,
-      name: error.name,
-      stack: error.stack?.substring(0, 200),
+      message: err.message,
+      code: err.code,
+      statusCode: err.statusCode,
+      name: err.name,
+      stack: err.stack?.substring(0, 200),
       sourceLang,
       targetLang,
       textLength: text?.length
     });
     
     // Check if it's a timeout error
-    if (error.code === 'ECONNABORTED' || error.message?.includes('timeout')) {
+    if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
       return NextResponse.json(
         { 
           error: `Translation timeout. ${sourceLang === 'ig' ? 'Igbo source language' : 'This translation'} may be experiencing issues with DeepL API.`,
@@ -112,7 +113,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check for unsupported language
-    if (error.message?.includes('not supported') || error.statusCode === 400) {
+    if (err.message?.includes('not supported') || err.statusCode === 400) {
       return NextResponse.json(
         { 
           error: 'This language combination is not currently supported by DeepL API.',
@@ -124,7 +125,7 @@ export async function POST(request: NextRequest) {
     
     return NextResponse.json(
       { 
-        error: error.message || 'Translation failed',
+        error: err.message || 'Translation failed',
         fallbackNeeded: true
       },
       { status: 500 }

@@ -46,8 +46,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, defaultMode = 'l
       setPassword('');
       setConfirmPassword('');
       setName('');
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'An error occurred. Please try again.');
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { error?: string } } };
+      setError(error.response?.data?.error || 'An error occurred. Please try again.');
     } finally {
       setLoading(false);
     }

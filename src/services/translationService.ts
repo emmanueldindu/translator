@@ -1,15 +1,5 @@
 import axios from 'axios';
 
-interface TranslationResponse {
-  translatedText: string;
-  detectedSourceLanguage?: string;
-}
-
-interface TranslationError {
-  message: string;
-  code?: string;
-}
-
 class TranslationService {
   private apiEndpoint: string;
 

@@ -61,7 +61,7 @@ class AuthService {
         headers: this.getAuthHeaders()
       });
       return response.data.user;
-    } catch (error) {
+    } catch {
       this.clearToken();
       return null;
     }
@@ -73,7 +73,7 @@ class AuthService {
         headers: this.getAuthHeaders()
       });
       return response.data;
-    } catch (error) {
+    } catch {
       return { remaining: 3, unlimited: false };
     }
   }

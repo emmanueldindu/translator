@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { 
-  DocumentTextIcon, 
   ArrowPathIcon, 
   ClipboardDocumentIcon,
   ArrowRightIcon,
@@ -34,7 +33,7 @@ const TranslationInterface: React.FC<TranslationInterfaceProps> = ({ className =
       setTranslationError('');
       setShowAuthModal(false);
     }
-  }, [user]);
+  }, [user, translationError]);
 
   const handleTranslate = async (): Promise<void> => {
     if (!inputText.trim()) return;
@@ -67,9 +66,10 @@ const TranslationInterface: React.FC<TranslationInterfaceProps> = ({ className =
       try {
         await authService.recordTranslation(inputText, sourceLang, targetLang, translatedText);
         await refreshRemainingTranslations();
-      } catch (recordError: any) {
+      } catch (recordError: unknown) {
+        const error = recordError as { response?: { status?: number } };
         // If rate limit is hit
-        if (recordError.response?.status === 429) {
+        if (error.response?.status === 429) {
           setTranslationError('You\'ve reached the limit of 3 free translations. Please login or register to continue.');
           setShowAuthModal(true);
         }
@@ -84,20 +84,9 @@ const TranslationInterface: React.FC<TranslationInterfaceProps> = ({ className =
     }
   };
 
-  const handleClear = (): void => {
-    setInputText('');
-    setOutputText('');
-    setIsTyping(false);
-    setTranslationError('');
-  };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setInputText(e.target.value);
     setIsTyping(e.target.value.length > 0);
-  };
-
-  const getWordCount = (): number => {
-    return inputText.trim().split(/\s+/).filter(word => word.length > 0).length;
   };
 
   const getCharacterCount = (): number => {
